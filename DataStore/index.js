@@ -1,4 +1,4 @@
-import createStore from "./Store.js";
+import createStore from "../Helpers/createStore.js";
 import counterReducer from "./Modules/Counter.js";
 import routerReducer from "./Modules/Routes.js";
 

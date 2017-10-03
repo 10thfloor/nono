@@ -1,4 +1,3 @@
-import "./DataStore/Store.js";
 import "./Pages/Layout/Layout.js";
 
 class App extends HTMLElement {

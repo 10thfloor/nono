@@ -1,5 +1,6 @@
 export default function combineReducers(reducers) {
   const reducerKeys = Object.keys(reducers);
+
   const finalReducers = {};
   for (let i = 0; i < reducerKeys.length; i++) {
     const key = reducerKeys[i];
