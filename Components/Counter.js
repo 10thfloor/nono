@@ -1,5 +1,6 @@
 import { INCREMENT_COUNTER } from "../DataStore/Reducer.js";
 import store from "../Datastore/index.js";
+import escapeHTML from "../Helpers/escapeHTML.js";
 
 class Counter extends HTMLElement {
   constructor() {
@@ -8,7 +9,7 @@ class Counter extends HTMLElement {
     const slice = this.dataset.state_name;
 
     const increment = () => {
-      store.dispatch(
+      store.dispatchToSlice(
         {
           type: INCREMENT_COUNTER,
           payload: slice
@@ -17,22 +18,22 @@ class Counter extends HTMLElement {
       );
     };
 
-    const update = () => {
+    const listen = () => {
       shadow.getElementById("increment").addEventListener("click", increment);
     };
 
     const render = () => {
       shadow.innerHTML = `
-        <div id="counter">${store.getState()[slice]}</div>
+        <div id="counter">${escapeHTML(store.getState()[slice])}</div>
         <button id="increment">+</button>
-    `;
-      update(shadow);
+      `;
+      listen(shadow);
     };
 
     const shadow = this.attachShadow({ mode: "open" });
     render(shadow);
 
-    store.subscribe(() => render(shadow), slice);
+    store.subscribeToSlice(() => render(shadow), slice);
   }
 }
 

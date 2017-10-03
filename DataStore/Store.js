@@ -10,7 +10,7 @@ const createStore = (reducer, initialState) => {
 
   const getState = () => JSON.parse(localStorage.getItem(stateObject));
 
-  const dispatch = (action, slice) => {
+  const dispatchToSlice = (action, slice) => {
     localStorage.setItem(
       stateObject,
       JSON.stringify(
@@ -20,7 +20,7 @@ const createStore = (reducer, initialState) => {
     listeners[slice].forEach(listener => listener());
   };
 
-  const subscribe = (listener, slice) => {
+  const subscribeToSlice = (listener, slice) => {
     listeners[slice] = listeners[slice] || [];
     listeners[slice].push(listener);
     return () => {
@@ -30,8 +30,8 @@ const createStore = (reducer, initialState) => {
 
   return {
     getState,
-    dispatch,
-    subscribe
+    dispatchToSlice,
+    subscribeToSlice
   };
 };
 
