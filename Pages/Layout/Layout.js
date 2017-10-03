@@ -10,7 +10,9 @@ class Layout extends HTMLElement {
     const render = () => {
       shadow.innerHTML = `
         <link rel="stylesheet" href="Pages/Layout/Layout.css">
-        ${router[store.getState().routes.page]()}
+        ${router[store.getState().routes.page]({ test: "ok" }, [
+          ["somethig", "awesome"]
+        ])}
       `;
     };
 

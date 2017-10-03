@@ -1,13 +1,13 @@
 import "../Pages/Home/Home.js";
-
-// TODO
-function mapAttrs(props) {
-  return "";
-}
+import mapAttrs from "../Helpers/mapAttrs.js";
 
 const routesMap = {
   "/": (data, props) =>
-    `<js-home data-route_state=${data} ${mapAttrs(props)}></js-home>`
+    `<js-home 
+      data-route_state=${JSON.stringify(data)} 
+      ${mapAttrs(props)}
+    >
+    </js-home>`
 };
 
 const routesProxy = new Proxy(routesMap, {
