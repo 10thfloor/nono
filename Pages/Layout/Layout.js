@@ -6,7 +6,6 @@ class Layout extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
     shadow.innerHTML = `
       <link rel="stylesheet" href="Pages/Layout/Layout.css">
-      <js-counter />
     `;
   }
 }
