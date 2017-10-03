@@ -1,4 +1,4 @@
-import { INCREMENT_COUNTER } from "../DataStore/Reducer.js";
+import { INCREMENT_COUNTER } from "../DataStore/Modules/Counter.js";
 import store from "../Datastore/index.js";
 import escapeHTML from "../Helpers/escapeHTML.js";
 
@@ -9,7 +9,7 @@ class Counter extends HTMLElement {
     const slice = this.dataset.state_name;
 
     const increment = () => {
-      store.dispatchToSlice(
+      store.dispatchWithSlice(
         {
           type: INCREMENT_COUNTER,
           payload: slice

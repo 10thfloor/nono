@@ -1,10 +1,9 @@
 const INIT = Symbol.for("INIT");
 export const INCREMENT_COUNTER = Symbol.for("INCREMENT_COUNTER");
 
-const appReducer = function(
+const counterReducer = function(
   state = {
-    counter_1: 0,
-    counter_2: 0
+    counter_1: 0
   },
   action = {
     type: INIT
@@ -18,4 +17,4 @@ const appReducer = function(
   }
 };
 
-export default appReducer;
+export default counterReducer;

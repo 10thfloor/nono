@@ -10,27 +10,27 @@ const createStore = (reducer, initialState) => {
 
   const getState = () => JSON.parse(localStorage.getItem(stateObject));
 
-  const dispatchToSlice = (action, slice) => {
+  const dispatchWithSlice = (action, slice) => {
     localStorage.setItem(
       stateObject,
       JSON.stringify(
         reducer(JSON.parse(localStorage.getItem(stateObject)), action)
       )
     );
-    listeners[slice].forEach(listener => listener());
+    listeners.get(slice).forEach(listener => listener());
   };
 
   const subscribeToSlice = (listener, slice) => {
-    listeners[slice] = listeners[slice] || [];
-    listeners[slice].push(listener);
+    listeners.set(slice, listeners[slice] || []);
+    listeners.get(slice).push(listener);
     return () => {
-      listeners[slice] = listeners[slice].filter(l => l !== listener);
+      listeners.set(slice, listeners.get(slice).filter(l => l !== listener));
     };
   };
 
   return {
     getState,
-    dispatchToSlice,
+    dispatchWithSlice,
     subscribeToSlice
   };
 };
