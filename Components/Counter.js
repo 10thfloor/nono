@@ -31,7 +31,7 @@ class Counter extends HTMLElement {
     };
 
     const shadow = this.attachShadow({ mode: "open" });
-    store.subscribeToListOfNamedListeners(render, slice);
+    store.subscribeToListOfNamedListeners(render, Symbol(slice));
     render();
   }
 }

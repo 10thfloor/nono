@@ -1,11 +1,13 @@
 import "../Pages/Home/Home.js";
-import mapAttrs from "../Helpers/mapAttrs.js";
+import "../Pages/NotFound/NotFound.js";
+
+import { routeAttrs, routeData } from "../Helpers/routerHelpers.js";
 
 const routesMap = {
   "/": (data, props) =>
     `<js-home 
-      data-route_state=${JSON.stringify(data)} 
-      ${mapAttrs(props)}
+      data-route_state=${routeData(data)} 
+      ${routeAttrs(props)}
     >
     </js-home>`
 };

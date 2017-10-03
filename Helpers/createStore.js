@@ -1,20 +1,26 @@
+import { windowOnLoad } from "./routerHelpers.js";
+
 const createStore = (reducer, initialState) => {
   const listeners = new Map();
-  const stateObject = "APP_STATE";
-  let state = localStorage.getItem(stateObject);
+  listeners.set("global", []);
+
+  const stateObjectName = "APP_STATE";
+  windowOnLoad(stateObjectName);
+
+  let state = localStorage.getItem(stateObjectName);
 
   if (!state) {
     state = reducer();
-    localStorage.setItem(stateObject, JSON.stringify(state));
+    localStorage.setItem(stateObjectName, JSON.stringify(state));
   }
 
-  const getState = () => JSON.parse(localStorage.getItem(stateObject));
+  const getState = () => JSON.parse(localStorage.getItem(stateObjectName));
 
   const dispatchWithSlice = (action, slice) => {
     localStorage.setItem(
-      stateObject,
+      stateObjectName,
       JSON.stringify(
-        reducer(JSON.parse(localStorage.getItem(stateObject)), action)
+        reducer(JSON.parse(localStorage.getItem(stateObjectName)), action)
       )
     );
     listeners.get(slice).forEach(listener => listener());
@@ -28,8 +34,19 @@ const createStore = (reducer, initialState) => {
     };
   };
 
+  const subscribe = listener => {
+    listeners.get("global").push(listener);
+    return () => {
+      listeners.set(
+        "global",
+        listeners.get("global").filter(l => l !== listener)
+      );
+    };
+  };
+
   return {
     getState,
+    subscribe,
     dispatchWithSlice,
     subscribeToListOfNamedListeners
   };

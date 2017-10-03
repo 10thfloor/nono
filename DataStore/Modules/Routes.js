@@ -3,7 +3,7 @@ const SET_ROUTE = Symbol.for("SET_PAGE");
 
 const routerReducer = function(
   state = {
-    page: "/"
+    page: window.location.pathname || "/"
   },
   action = {
     type: INIT
