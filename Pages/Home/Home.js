@@ -1,5 +1,4 @@
 import escapeHTML from "../../Helpers/escapeHTML.js";
-
 class Home extends HTMLElement {
   constructor() {
     super();

@@ -20,7 +20,7 @@ const createStore = (reducer, initialState) => {
     listeners.get(slice).forEach(listener => listener());
   };
 
-  const subscribeToSlice = (listener, slice) => {
+  const subscribeToListOfNamedListeners = (listener, slice) => {
     listeners.set(slice, listeners[slice] || []);
     listeners.get(slice).push(listener);
     return () => {
@@ -31,7 +31,7 @@ const createStore = (reducer, initialState) => {
   return {
     getState,
     dispatchWithSlice,
-    subscribeToSlice
+    subscribeToListOfNamedListeners
   };
 };
 

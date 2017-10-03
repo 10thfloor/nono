@@ -27,13 +27,12 @@ class Counter extends HTMLElement {
         <div id="counter">${escapeHTML(store.getState()[slice])}</div>
         <button id="increment">+</button>
       `;
-      listen(shadow);
+      listen();
     };
 
     const shadow = this.attachShadow({ mode: "open" });
-    render(shadow);
-
-    store.subscribeToSlice(() => render(shadow), slice);
+    store.subscribeToListOfNamedListeners(render, slice);
+    render();
   }
 }
 

@@ -1,5 +1,5 @@
 const INIT = Symbol.for("INIT");
-const SET_PAGE = Symbol.for("SET_PAGE");
+const SET_ROUTE = Symbol.for("SET_PAGE");
 
 const routerReducer = function(
   state = {
@@ -10,7 +10,7 @@ const routerReducer = function(
   }
 ) {
   switch (action.type) {
-    case SET_PAGE:
+    case SET_ROUTE:
       return { ...state, page: action.payload };
     default:
       return state;
