@@ -1,0 +1,10 @@
+{
+  "name": "nono - An SPA built with no Libraries or Frameworks",
+  "short_name": "nono",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description":
+    "This SPA was created without libraries or frameworks, using the vanilla goodness of modern ES6 / CSS. It's built with Custom Elements, and was inspired by React & Redux.",
+  "icons": []
+}

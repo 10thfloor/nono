@@ -1,5 +1,5 @@
-import { INCREMENT_COUNTER } from "../DataStore/Modules/Counter.js";
-import store from "../Datastore/index.js";
+import { INCREMENT_COUNTER } from "../Store/Modules/Counter.js";
+import store from "../Store/index.js";
 import escapeHTML from "../Helpers/escapeHTML.js";
 import assert from "../Helpers/assert.js";
 
@@ -25,7 +25,7 @@ export default class Counter extends HTMLElement {
       shadow.getElementById("increment").addEventListener("click", increment);
     };
 
-    const render = () => {
+    this.render = () => {
       shadow.innerHTML = `
         <div id="counter">
         <button id="increment">Increment -> </button> ${escapeHTML(
@@ -36,7 +36,10 @@ export default class Counter extends HTMLElement {
       listen();
     };
 
-    store.subscribeToListOfNamedListeners(render, slice);
-    render();
+    store.subscribeToListOfNamedListeners(this.render.bind(this), slice);
+  }
+
+  connectedCallBack() {
+    this.render();
   }
 }

@@ -1,16 +1,21 @@
 // Components
-import Counter from "../Components/Counter.js";
-
+import CounterComponent from "../Components/Counter.js";
+import SpaLinkComponent from "../Components/SpaLink.js";
 //Pages
-import Layout from "../Pages/Layout/Layout.js";
-import Home from "../Pages/Home/Home.js";
-import NotFound from "../Pages/NotFound/NotFound.js";
+import LayoutPage from "../Pages/Layout/Layout.js";
+import HomePage from "../Pages/Home/Home.js";
+import NotFoundPage from "../Pages/NotFound/NotFound.js";
+import TodoPage from "../Pages/Todo/Todo.js";
 
 const components = new Map([
-  ["js-layout", Layout],
-  ["js-home", Home],
-  ["js-notfound", NotFound],
-  ["js-counter", Counter]
+  // Components
+  ["counter-component", CounterComponent],
+  ["spa-link", SpaLinkComponent],
+  // Pages
+  ["layout-page", LayoutPage],
+  ["home-page", HomePage],
+  ["notfound-page", NotFoundPage],
+  ["todo-page", TodoPage]
 ]);
 
 for (let [name, component] of components) {

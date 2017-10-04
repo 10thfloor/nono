@@ -1,5 +1,5 @@
 function routeAttrs(attrs, acc = "") {
-  if (!attrs) return;
+  if (!attrs) return "";
   const length = attrs.length;
   const atributes = attrs.shift();
   return length === 0
@@ -11,7 +11,7 @@ function routeAttrs(attrs, acc = "") {
 }
 
 function routeData(data) {
-  if (!data) return;
+  if (!data) return "";
   return JSON.stringify(data);
 }
 
@@ -28,4 +28,12 @@ function windowOnLoad(stateObjectName) {
   }
 }
 
-export { routeAttrs, routeData, windowOnLoad };
+function pushState() {
+  history.pushState(
+    { page: window.location.pathname },
+    null,
+    window.location.pathname
+  );
+}
+
+export { routeAttrs, routeData, windowOnLoad, pushState };
