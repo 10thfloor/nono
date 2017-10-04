@@ -2,7 +2,8 @@ import { windowOnLoad } from "./routerHelpers.js";
 
 const createStore = (reducer, initialState) => {
   const listeners = new Map();
-  listeners.set("global", []);
+  const GLOBAL_LISTENERS = Symbol("Global store listeners");
+  listeners.set(GLOBAL_LISTENERS, []);
 
   const stateObjectName = "APP_STATE";
   windowOnLoad(stateObjectName);
@@ -16,40 +17,57 @@ const createStore = (reducer, initialState) => {
 
   const getState = () => JSON.parse(localStorage.getItem(stateObjectName));
 
-  const dispatchWithSlice = (action, slice) => {
+  const dispatch = (action, storeListenerBucketName) => {
     localStorage.setItem(
       stateObjectName,
       JSON.stringify(
         reducer(JSON.parse(localStorage.getItem(stateObjectName)), action)
       )
     );
-    listeners.get(slice).forEach(listener => listener());
+    if (storeListenerBucketName) {
+      listeners.get(storeListenerBucketName).forEach(listener => listener());
+    } else {
+      listeners.get(GLOBAL_LISTENERS).forEach(listener => listener());
+    }
   };
 
-  const subscribeToListOfNamedListeners = (listener, slice) => {
-    listeners.set(slice, listeners[slice] || []);
-    listeners.get(slice).push(listener);
-    return () => {
-      listeners.set(slice, listeners.get(slice).filter(l => l !== listener));
-    };
-  };
-
-  const subscribe = listener => {
-    listeners.get("global").push(listener);
-    return () => {
+  const subscribe = (listener, storeListenerBucketName) => {
+    if (storeListenerBucketName) {
       listeners.set(
-        "global",
-        listeners.get("global").filter(l => l !== listener)
+        storeListenerBucketName,
+        listeners[storeListenerBucketName] || []
       );
-    };
+      listeners.get(storeListenerBucketName).push(listener);
+      return () => {
+        listeners.set(
+          storeListenerBucketName,
+          listeners.get(storeListenerBucketName).filter(l => l !== listener)
+        );
+      };
+    } else {
+      listeners.get(GLOBAL_LISTENERS).push(listener);
+      return () => {
+        listeners.set(
+          GLOBAL_LISTENERS,
+          listeners.get(GLOBAL_LISTENERS).filter(l => l !== listener)
+        );
+      };
+    }
   };
 
-  return {
-    getState,
-    subscribe,
-    dispatchWithSlice,
-    subscribeToListOfNamedListeners
-  };
+  return new Proxy(
+    {
+      getState,
+      dispatch,
+      subscribe,
+      listeners
+    },
+    {
+      get: function(target, name, reciever) {
+        return target[name];
+      }
+    }
+  );
 };
 
 export default createStore;

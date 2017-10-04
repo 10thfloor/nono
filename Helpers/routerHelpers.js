@@ -36,4 +36,12 @@ function pushState() {
   );
 }
 
-export { routeAttrs, routeData, windowOnLoad, pushState };
+function replaceState() {
+  history.replaceState(
+    { page: window.location.pathname },
+    null,
+    window.location.pathname
+  );
+}
+
+export { routeAttrs, routeData, windowOnLoad, pushState, replaceState };

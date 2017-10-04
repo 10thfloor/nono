@@ -1,5 +1,5 @@
-const INIT = Symbol.for("INIT");
-export const INCREMENT_COUNTER = Symbol.for("INCREMENT_COUNTER");
+const INIT = Symbol();
+export const INCREMENT_COUNTER = Symbol();
 
 const counterReducer = function(
   state = {
@@ -11,7 +11,10 @@ const counterReducer = function(
 ) {
   switch (action.type) {
     case INCREMENT_COUNTER:
-      return { ...state, [action.payload]: state[action.payload] + 1 };
+      return {
+        ...state,
+        [action.payload.counter]: state[action.payload.counter] + 1
+      };
     default:
       return state;
   }

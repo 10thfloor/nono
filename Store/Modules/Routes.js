@@ -1,5 +1,5 @@
-const INIT = Symbol.for("INIT");
-export const SET_ROUTE = Symbol.for("SET_ROUTE");
+const INIT = Symbol();
+export const SET_ROUTE = Symbol();
 
 const routerReducer = function(
   state = {

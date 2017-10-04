@@ -7,17 +7,18 @@ export default class Counter extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
-    const slice = this.dataset.state_name;
+    const counter_name = this.dataset.counter_name;
+    const storeListenerBucket = counter_name;
 
-    assert(slice, "[data-state_name] attribute not specified!");
+    assert(counter_name, "[data-counter_name] attribute not specified!");
 
     const increment = () => {
-      store.dispatchWithSlice(
+      store.dispatch(
         {
           type: INCREMENT_COUNTER,
-          payload: slice
+          payload: { counter: counter_name }
         },
-        slice
+        storeListenerBucket
       );
     };
 
@@ -29,14 +30,14 @@ export default class Counter extends HTMLElement {
       shadow.innerHTML = `
         <div id="counter">
         <button id="increment">Increment -> </button> ${escapeHTML(
-          store.getState().counters[slice]
+          store.getState().counters[counter_name]
         )}
         </div>
       `;
       listen();
     };
 
-    store.subscribeToListOfNamedListeners(this.render.bind(this), slice);
+    store.subscribe(this.render.bind(this), storeListenerBucket);
   }
 
   connectedCallBack() {

@@ -9,18 +9,18 @@ import styles from "./styles.js";
 export default class Layout extends HTMLElement {
   constructor() {
     super();
-    const slice = this.dataset.state_name;
+    const storeListenerBucket = this.dataset.state_name;
 
-    assert(slice, "[data-state_name] attribute not specified!");
+    assert(storeListenerBucket, "[data-state_name] attribute not specified!");
 
     this.render = () => {
       this.innerHTML = `
         <style>${styles}</style>
-        ${router[store.getState().routes[slice]]()}
+        ${router[store.getState().routes[storeListenerBucket]]()}
       `;
     };
 
-    store.subscribeToListOfNamedListeners(this.render.bind(this), slice);
+    store.subscribe(this.render.bind(this), storeListenerBucket);
   }
 
   connectedCallback() {

@@ -1,8 +1,13 @@
 import store from "../Store/index.js";
 import { SET_ROUTE } from "../Store/Modules/Routes.js";
-import { routeAttrs, routeData, pushState } from "../Helpers/routerHelpers.js";
+import {
+  routeAttrs,
+  routeData,
+  pushState,
+  replaceState
+} from "../Helpers/routerHelpers.js";
 
-const slice = "page";
+const storeListenerBucket = "page";
 
 const routesMap = {
   "/": (data, props) =>
@@ -28,17 +33,16 @@ const routesProxy = new Proxy(routesMap, {
 });
 
 window.addEventListener("popstate", function(e) {
-  e.preventDefault();
   pushState();
-  store.dispatchWithSlice(
+  store.dispatch(
     {
       type: SET_ROUTE,
-      payload: e.state.page
+      payload: window.location.pathname
     },
-    slice
+    storeListenerBucket
   );
 });
 
-pushState();
+replaceState();
 
 export default routesProxy;

@@ -4,14 +4,14 @@ import store from "../Store/index.js";
 export default class SpaLink extends HTMLElement {
   constructor() {
     super();
-    const slice = "page";
+    const storeListenerBucket = "page";
     const navigate = () => {
-      store.dispatchWithSlice(
+      store.dispatch(
         {
           type: SET_ROUTE,
           payload: this.getAttribute("to")
         },
-        slice
+        storeListenerBucket
       );
     };
 
@@ -34,9 +34,7 @@ export default class SpaLink extends HTMLElement {
     );
 
     this.render = () => {
-      this.innerHTML = `
-        <a href="#">${this.innerText}</>
-      `;
+      this.innerHTML = `<a href="#">${this.innerText}</>`;
     };
   }
 

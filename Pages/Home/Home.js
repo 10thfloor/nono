@@ -5,8 +5,7 @@ export default class Home extends HTMLElement {
     super();
     const shadow = this.attachShadow({ mode: "open" });
     this.render = () => {
-      shadow.innerHTML = `
-        <style>
+      shadow.innerHTML = `<style>
           ${styles}      
         </style>
         <div id="greetings">
@@ -16,10 +15,8 @@ export default class Home extends HTMLElement {
             vanilla goodness of modern ES6 / CSS. It's built with Custom Elements, and was 
             inspired by React & Redux.
           </p>
-          <counter-component data-state_name="counter_1"></counter-component>
           Check out the <spa-link to="/todo">Todo List</spa-link>
-        </div>
-      `;
+        </div>`;
     };
   }
 
