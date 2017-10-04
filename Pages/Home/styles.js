@@ -12,7 +12,7 @@ export default `
     text-align: center;
   }
   
-  :host p {
+  p {
     text-align: justify;
     text-justify: inter-word;
   }

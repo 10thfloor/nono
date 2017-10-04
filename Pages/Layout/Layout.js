@@ -1,4 +1,4 @@
-import store from "../../Store/index.js";
+import { subscribe, getState } from "../../Store/index.js";
 import router from "../../Router/index.js";
 
 import escapeHTML from "../../Helpers/escapeHTML.js";
@@ -16,11 +16,11 @@ export default class Layout extends HTMLElement {
     this.render = () => {
       this.innerHTML = `
         <style>${styles}</style>
-        ${router[store.getState().routes[storeListenerBucket]]()}
+        ${router[getState().routes[storeListenerBucket]]()}
       `;
     };
 
-    store.subscribe(this.render.bind(this), storeListenerBucket);
+    subscribe(this.render.bind(this), storeListenerBucket);
   }
 
   connectedCallback() {

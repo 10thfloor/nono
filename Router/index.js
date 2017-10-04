@@ -1,4 +1,4 @@
-import store from "../Store/index.js";
+import { dispatch } from "../Store/index.js";
 import { SET_ROUTE } from "../Store/Modules/Routes.js";
 import {
   routeAttrs,
@@ -34,7 +34,7 @@ const routesProxy = new Proxy(routesMap, {
 
 window.addEventListener("popstate", function(e) {
   pushState();
-  store.dispatch(
+  dispatch(
     {
       type: SET_ROUTE,
       payload: window.location.pathname

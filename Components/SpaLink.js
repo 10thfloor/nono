@@ -1,12 +1,12 @@
 import { SET_ROUTE } from "../Store/Modules/Routes.js";
-import store from "../Store/index.js";
+import { dispatch } from "../Store/index.js";
 
 export default class SpaLink extends HTMLElement {
   constructor() {
     super();
     const storeListenerBucket = "page";
     const navigate = () => {
-      store.dispatch(
+      dispatch(
         {
           type: SET_ROUTE,
           payload: this.getAttribute("to")

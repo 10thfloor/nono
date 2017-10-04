@@ -1,8 +1,11 @@
 import { windowOnLoad } from "./routerHelpers.js";
+import assert from "./assert.js";
+import asyncResource from "./asyncResource.js";
 
 const createStore = (reducer, initialState) => {
   const listeners = new Map();
-  const GLOBAL_LISTENERS = Symbol("Global store listeners");
+  const GLOBAL_LISTENERS = Symbol("Global store listeners.");
+
   listeners.set(GLOBAL_LISTENERS, []);
 
   const stateObjectName = "APP_STATE";
@@ -31,6 +34,15 @@ const createStore = (reducer, initialState) => {
     }
   };
 
+  const dispatchAsync = async (action, storeListenerBucketName) => {
+    assert(action.loading, "Must provide action.loading to do async!");
+
+    dispatch({ type: action.loading }, storeListenerBucketName);
+    const payload = await asyncResource[action.type]();
+    action.payload = payload;
+    dispatch(action, storeListenerBucketName);
+  };
+
   const subscribe = (listener, storeListenerBucketName) => {
     if (storeListenerBucketName) {
       listeners.set(
@@ -55,19 +67,13 @@ const createStore = (reducer, initialState) => {
     }
   };
 
-  return new Proxy(
-    {
-      getState,
-      dispatch,
-      subscribe,
-      listeners
-    },
-    {
-      get: function(target, name, reciever) {
-        return target[name];
-      }
-    }
-  );
+  return {
+    getState,
+    dispatch,
+    dispatchAsync,
+    subscribe,
+    listeners
+  };
 };
 
 export default createStore;
