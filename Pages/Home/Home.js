@@ -1,5 +1,5 @@
 import escapeHTML from "../../Helpers/escapeHTML.js";
-class Home extends HTMLElement {
+export default class Home extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
@@ -12,10 +12,9 @@ class Home extends HTMLElement {
           vanilla goodness of modern ES6 / CSS. It's built with Custom Elements, and was 
           inspired by React & Redux.
         </p>
+        <js-counter data-state_name="counter_1"></js-counter>
       </div>
       
     `;
   }
 }
-
-customElements.define("js-home", Home);

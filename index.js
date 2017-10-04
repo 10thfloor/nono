@@ -1,5 +1,4 @@
-import "./Pages/Layout/Layout.js";
-
+import "./Helpers/registerComponents.js";
 class App extends HTMLElement {
   constructor() {
     super();

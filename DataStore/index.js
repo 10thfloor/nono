@@ -6,7 +6,7 @@ import combineReducers from "../Helpers/combineReducers.js";
 
 const store = createStore(
   combineReducers({
-    // counters: counterReducer,
+    counters: counterReducer,
     routes: routerReducer
   })
 );
