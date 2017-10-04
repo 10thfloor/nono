@@ -3,9 +3,9 @@ var filesToCache = [
   "index.css",
   "index.js",
   "Styles/reset.css",
-  "Pages/Todo/Todo.css",
-  "Pages/Layout/Layout.css",
-  "Pages/Home/Home.css"
+  "Pages/Todo/styles.js",
+  "Pages/Layout/styles.js",
+  "Pages/Home/styles.js"
 ];
 
 var staticCacheName = "nono-cache-v1";
