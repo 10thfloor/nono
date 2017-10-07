@@ -1,67 +1,68 @@
-import { windowOnLoad } from "./routerHelpers.js";
+import { windowOnLoad, routerListenerBucket } from "./routerHelpers.js";
 import assert from "./assert.js";
 import asyncResource from "./asyncResource.js";
 
 const createStore = (reducer, initialState) => {
   const listeners = new Map();
-  const GLOBAL_LISTENERS = Symbol("Global store listeners.");
+  const GLOBAL_LISTENERS_MAP_KEY = Symbol("Global store listeners.");
 
-  listeners.set(GLOBAL_LISTENERS, []);
+  listeners.set(GLOBAL_LISTENERS_MAP_KEY, []);
 
-  const stateObjectName = "APP_STATE";
-  windowOnLoad(stateObjectName);
+  const LOCAL_STORAGE_APP_STATE = "nono-v1";
+  windowOnLoad(LOCAL_STORAGE_APP_STATE);
 
-  let state = localStorage.getItem(stateObjectName);
+  let state = localStorage.getItem(LOCAL_STORAGE_APP_STATE);
 
   if (!state) {
     state = reducer();
-    localStorage.setItem(stateObjectName, JSON.stringify(state));
+    localStorage.setItem(LOCAL_STORAGE_APP_STATE, JSON.stringify(state));
   }
 
-  const getState = () => JSON.parse(localStorage.getItem(stateObjectName));
+  const getState = () =>
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_APP_STATE));
 
-  const dispatch = (action, storeListenerBucketName) => {
+  const dispatch = (action, LISTNERS_MAP_KEY) => {
     localStorage.setItem(
-      stateObjectName,
+      LOCAL_STORAGE_APP_STATE,
       JSON.stringify(
-        reducer(JSON.parse(localStorage.getItem(stateObjectName)), action)
+        reducer(
+          JSON.parse(localStorage.getItem(LOCAL_STORAGE_APP_STATE)),
+          action
+        )
       )
     );
-    if (storeListenerBucketName) {
-      listeners.get(storeListenerBucketName).forEach(listener => listener());
+    if (LISTNERS_MAP_KEY) {
+      listeners.get(LISTNERS_MAP_KEY).forEach(listener => listener());
     } else {
-      listeners.get(GLOBAL_LISTENERS).forEach(listener => listener());
+      listeners.get(GLOBAL_LISTENERS_MAP_KEY).forEach(listener => listener());
     }
   };
 
-  const dispatchAsync = async (action, storeListenerBucketName) => {
+  const dispatchAsync = async (action, LISTNERS_MAP_KEY) => {
     assert(action.loading, "Must provide action.loading to do async!");
 
-    dispatch({ type: action.loading }, storeListenerBucketName);
+    dispatch({ type: action.loading }, LISTNERS_MAP_KEY);
     const payload = await asyncResource[action.type]();
     action.payload = payload;
-    dispatch(action, storeListenerBucketName);
+    dispatch(action, LISTNERS_MAP_KEY);
   };
 
-  const subscribe = (listener, storeListenerBucketName) => {
-    if (storeListenerBucketName) {
-      listeners.set(
-        storeListenerBucketName,
-        listeners[storeListenerBucketName] || []
-      );
-      listeners.get(storeListenerBucketName).push(listener);
+  const subscribe = (listener, LISTNERS_MAP_KEY) => {
+    if (LISTNERS_MAP_KEY) {
+      listeners.set(LISTNERS_MAP_KEY, listeners[LISTNERS_MAP_KEY] || []);
+      listeners.get(LISTNERS_MAP_KEY).push(listener);
       return () => {
         listeners.set(
-          storeListenerBucketName,
-          listeners.get(storeListenerBucketName).filter(l => l !== listener)
+          LISTNERS_MAP_KEY,
+          listeners.get(LISTNERS_MAP_KEY).filter(l => l !== listener)
         );
       };
     } else {
-      listeners.get(GLOBAL_LISTENERS).push(listener);
+      listeners.get(GLOBAL_LISTENERS_MAP_KEY).push(listener);
       return () => {
         listeners.set(
-          GLOBAL_LISTENERS,
-          listeners.get(GLOBAL_LISTENERS).filter(l => l !== listener)
+          GLOBAL_LISTENERS_MAP_KEY,
+          listeners.get(GLOBAL_LISTENERS_MAP_KEY).filter(l => l !== listener)
         );
       };
     }

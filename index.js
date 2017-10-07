@@ -5,7 +5,7 @@ class App extends HTMLElement {
     super();
     this.render = () => {
       this.innerHTML = `
-        <layout-page data-state_name='page' />
+        <layout-page></layout-page>
       `;
     };
   }

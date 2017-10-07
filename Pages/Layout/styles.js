@@ -1,6 +1,7 @@
 export default `
-  layout-page {
+  layout-page  {
+    display: block;
     width: 100vw;
-    display: grid;
+    height: 100vh;
   }
 `;

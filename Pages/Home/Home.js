@@ -6,9 +6,7 @@ export default class Home extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
     this.render = () => {
       shadow.innerHTML = `
-        <style>
-          ${styles}      
-        </style>
+        <style>${styles}</style>
         <div id="greetings">
           <h1>Greetings</h1>
           <p>

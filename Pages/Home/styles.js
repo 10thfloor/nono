@@ -1,5 +1,5 @@
 export default `
-  :host {
+  :host(home-page) {
     display: grid;
     grid-template-rows: repeat(4, 1fr);
     grid-template-columns: repeat(12, 1fr);
